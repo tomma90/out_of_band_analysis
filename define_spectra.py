@@ -43,3 +43,24 @@ def dust(nu, T, nu0, A, beta):
 def synch(nu, nu0, A, beta):
     
     return A * (nu / nu0)**beta
+
+# Zodiacal Light Emission in brightness (Maris et al. 2006)
+def zodiac(nu, T):
+
+	zle = np.zeros(nu.size)
+	
+	for i in range(nu.size):
+
+		if nu[i] > 1875.e9:
+	
+			pre_factor = 1.
+			
+		elif nu[i] <= 1875.e9:
+		
+			# Pre-factor fixed to 1 to agree with Ludo's model
+		
+			pre_factor = 1. #pre_factor = (nu[i] / 1875.e9)**2
+			
+		zle[i] = 3.e-7 * BB(nu[i], T) * pre_factor
+
+	return zle
